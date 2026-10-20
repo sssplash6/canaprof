@@ -188,7 +188,7 @@ select.input {
 .prog { max-width: 760px; width: 100%; margin: 0 auto; padding: 18px 20px 0; }
 .prog-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; font-size: 13px; color: var(--mute); }
 .prog-head b { color: var(--ink); font-weight: 600; }
-.prog-segs { display: grid; gap: 6px; }
+.prog-segs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
 .prog-seg { display: grid; gap: 7px; min-width: 0; }
 .prog-seg .bar { height: 4px; }
 .prog-seg .bar > i { transition: width var(--slow) var(--ease); }

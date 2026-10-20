@@ -20,7 +20,7 @@ const persist = () => { state.i = i; save(state); };
 function progress() {
   $('prog').innerHTML = `
     <div class="prog-head"><span>${t('test.partOf', { n: PARTS.indexOf(q().part) + 1 })}</span><span class="num"><b>${done()}</b> / ${N}</span></div>
-    <div class="prog-segs" style="grid-template-columns:${PARTS.map(p => `${QUESTIONS.filter(x => x.part === p).length}fr`).join(' ')}">
+    <div class="prog-segs">
       ${PARTS.map(p => {
         const items = QUESTIONS.filter(x => x.part === p), a = items.filter(x => state.answers[x.id] != null).length;
         const st = p === q().part ? 'current' : a === items.length ? 'done' : 'todo';
