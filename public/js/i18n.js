@@ -1,0 +1,376 @@
+// UI strings in Russian and English, plus helpers. Content objects use the same { ru, en } shape.
+export const BRAND = { bold: 'freshman', light: 'academy' };
+
+const STR = {
+  ru: {
+    'brand.title': 'Профориентация',
+    'lang.label': 'Язык',
+    'nav.sample': 'Пример отчёта',
+    'nav.take': 'Пройти тест',
+    'hero.kicker': 'Профориентационный тест',
+    'hero.title': 'Узнай, какая работа подходит именно тебе',
+    'hero.lead': '100 вопросов об интересах, характере и навыках. В конце подробный отчёт: профессии, зарплаты в 10 странах и план до университета.',
+    'form.title': 'Начнём с тебя',
+    'form.name': 'Имя',
+    'form.namePh': 'Как тебя зовут',
+    'form.grade': 'Класс',
+    'form.country': 'Где ты живёшь',
+    'form.choose': 'Выбери',
+    'form.start': 'Начать тест',
+    'form.resume': 'Продолжить с вопроса {n}',
+    'form.restart': 'Начать заново',
+    'form.time': 'Около 15 минут. Прогресс сохраняется: можно закрыть вкладку и вернуться.',
+    'err.name': 'Напиши имя',
+    'err.grade': 'Выбери класс',
+    'err.country': 'Выбери страну',
+    'grade.7': '7 класс', 'grade.8': '8 класс', 'grade.9': '9 класс', 'grade.10': '10 класс', 'grade.11': '11 класс', 'grade.uni': 'Университет',
+    'parts.title': 'Из чего состоит тест',
+    'get.title': 'Что будет в отчёте',
+    'get.1': 'Профиль интересов по Холланду и твой архетип',
+    'get.2': 'Пять черт характера с подсказками для учёбы',
+    'get.3': '42 профессии по совпадению, риску ИИ и спросу',
+    'get.4': 'Доход по странам и по годам опыта',
+    'get.5': 'План от твоего класса до университета',
+    'get.6': 'Навыки, которые стоит подтянуть, и что тебя заряжает',
+    'foot.method': 'Методика: RIASEC, Big Five, O*NET Work Values, SJT.',
+    'foot.note': 'Результат помогает подумать, а не ставит диагноз.',
+
+    'part.interest': 'Интересы', 'part.personality': 'Характер', 'part.values': 'Ценности', 'part.skills': 'Навыки', 'part.sjt': 'Ситуации',
+    'intro.interest': 'Оценивай занятия, не думая, умеешь ли ты это. Важно только, было бы тебе интересно.',
+    'intro.personality': 'Правильных ответов нет. Отвечай, какой ты сейчас, а не каким хочешь быть.',
+    'intro.values': 'Насколько каждая вещь важна для тебя в будущей работе.',
+    'intro.skills': 'Оцени свой уровень сейчас. Честная оценка даст точный план.',
+    'intro.sjt': 'Выбери вариант, который ближе к тому, как ты обычно поступаешь.',
+    'ask.interest': 'Насколько тебе понравилось бы это на работе?',
+    'ask.personality': 'Насколько это про тебя?',
+    'ask.values': 'Насколько это важно для тебя?',
+    'ask.skills': 'Твой уровень сейчас',
+    'ask.sjt': 'Что ты сделаешь?',
+    'lo.interest': 'Совсем нет', 'hi.interest': 'Очень',
+    'lo.personality': 'Не про меня', 'hi.personality': 'Точно про меня',
+    'lo.values': 'Неважно', 'hi.values': 'Очень важно',
+    'lo.skills': 'Нет опыта', 'hi.skills': 'Эксперт',
+    'test.partOf': 'Часть {n} из 5',
+    'test.count': '{n} вопросов',
+    'test.begin': 'Начать',
+    'test.back': 'Назад',
+    'test.next': 'Дальше',
+    'test.exit': 'Выйти',
+    'test.saved': 'Прогресс сохранён',
+    'test.keys': '1-5 ответ, ← → переход',
+    'test.keysSjt': 'A-D ответ, ← → переход',
+    'test.sending': 'Собираем твой отчёт',
+    'test.sendError': 'Не получилось отправить ответы. Проверь интернет и попробуй ещё раз.',
+    'test.retry': 'Отправить ещё раз',
+    'test.of': 'из',
+
+    'r.for': 'Отчёт: {name}',
+    'r.share': 'Поделиться',
+    'r.copied': 'Скопировано',
+    'r.pdf': 'Скачать PDF',
+    'r.archetype': '{name}, твой архетип',
+    'r.code': 'Код Холланда',
+    'r.best': 'Лучшее совпадение',
+    'r.potential': 'Потенциал через 10 лет',
+    'r.perYearUS': 'в год в США, {p}',
+    'r.sample': 'Это пример отчёта. Пройди тест, чтобы получить свой.',
+    'r.loading': 'Загружаем отчёт',
+    'r.notFound': 'Отчёт не найден',
+    'r.notFoundText': 'Проверь ссылку или пройди тест заново.',
+    'r.flat': 'Интересы распределены ровно, ни один тип не выделяется. Так бывает, но совпадения ниже будут примерными. Попробуй пройти первую часть ещё раз и смелее используй края шкалы.',
+    'r.date': 'Дата',
+    'r.id': 'Номер',
+    's1': 'Интересы', 's1.sub': 'Шесть типов Холланда: что тебя притягивает в работе',
+    's2': 'Характер', 's2.sub': 'Большая пятёрка: как ты обычно действуешь',
+    's3': 'Профессии', 's3.sub': 'Отсортированы по совпадению с твоими интересами',
+    's4': 'Доход', 's4.sub': 'Сколько можно зарабатывать в разных странах',
+    's5': 'План', 's5.sub': 'Шаги от твоего класса до университета и дальше',
+    's6': 'Навыки', 's6.sub': 'Что нужно для трёх лучших профессий',
+    's7': 'Энергия', 's7.sub': 'Что даёт силы, что их забирает и как этим пользоваться',
+    'role.0': 'Ведущий', 'role.1': 'Второй', 'role.2': 'Третий',
+    'radar.alt': 'Шестиугольник интересов: {list}',
+    'lv.low': 'Низкий', 'lv.mid': 'Средний', 'lv.high': 'Высокий',
+    'b5.summary': 'Главное',
+    'p.top3': 'Топ 3', 'p.top10': 'Топ 10', 'p.all': 'Все {n}',
+    'p.sort': 'Сортировка',
+    'sort.match': 'По совпадению', 'sort.salary': 'По зарплате', 'sort.ai': 'Меньше всего ИИ', 'sort.growth': 'По спросу',
+    'p.fit': 'совпадение',
+    'p.usd': 'в год, США',
+    'p.ai': 'задач может взять ИИ',
+    'g.high': 'Спрос растёт', 'g.mid': 'Спрос стабилен', 'g.low': 'Спрос падает',
+    'p.study': 'Учиться: {field}, {years}',
+    'p.about': 'Суть работы',
+    'p.start': 'Попробуй уже сейчас',
+    'p.skills': 'Нужные навыки',
+    'p.more': 'Подробнее',
+    'p.compare': 'Сравнить',
+    'p.compareHint': 'Отметь до трёх профессий, чтобы сравнить их рядом',
+    'p.compareTitle': 'Сравнение',
+    'p.clear': 'Сбросить',
+    'p.demand': 'Спрос',
+    'p.code': 'Код',
+    'i.prof': 'Профессия',
+    'i.exp': 'Опыт',
+    'i.country': 'Страна',
+    'i.month': '{x} в месяц',
+    'i.home': 'твоя страна',
+    'i.times': 'в {x} раза больше, чем в твоей стране',
+    'i.curve': 'Как растёт доход с опытом',
+    'i.rank': 'Страны рядом',
+    'i.note': 'Оценка до налогов. Реальные цифры зависят от города, компании и твоих навыков.',
+    'i.lv0': 'Старт', 'i.lv1': 'Junior', 'i.lv2': 'Middle', 'i.lv3': 'Senior', 'i.lv4': 'Lead',
+    'pl.all': 'Весь путь',
+    'st.early': '7-9 класс', 'st.10': '10 класс', 'st.11': '11 класс', 'st.uni': 'Университет',
+    'pl.now': 'сейчас',
+    'pr.critical': 'Обязательно', 'pr.recommended': 'Желательно', 'pr.optional': 'По желанию',
+    'pl.done': 'Сделано {d} из {n}',
+    'pl.try': 'Попробуй профессию: {p}',
+    'pl.mark': 'Отметить как сделанное',
+    'rd.ready': 'готовность',
+    'rd.strong': 'Уже на уровне',
+    'rd.grow': 'Подтянуть',
+    'rd.skills': 'навыков',
+    'rd.priority': 'С чего начать',
+    'rd.need': 'нужно {n} из 5, сейчас {h}',
+    'rd.none': 'По всем навыкам для этих профессий ты уже на нужном уровне.',
+    'rd.for': 'Для профессий: {list}',
+    'rd.have': 'Уже есть',
+    'm.fuel': 'Заряжает',
+    'm.drain': 'Забирает силы',
+    'm.values': 'Что важно в работе',
+    'm.style': 'Твой стиль в команде',
+    'm.styleNote': 'По ответам в ситуациях',
+    'm.tips': 'Как этим пользоваться',
+    'm.insight': 'Главное',
+    'm.insightText': 'Лучше всего ты работаешь там, где есть {f1} и {f2}. Больше всего сил забирает {d1}.',
+    'm.power': 'Сила {n} из 5',
+    'f.retake': 'Пройти тест',
+    'p.aiShort': 'ИИ: {n}%',
+    'p.salaryRow': 'Зарплата, США',
+    'p.homeRow': 'В твоей стране',
+    'p.aiRow': 'Задачи для ИИ',
+    'p.studyRow': 'Учёба',
+    'pl.month': '1 месяц',
+    'i.legendHome': 'твоя страна',
+  },
+  en: {
+    'brand.title': 'Career test',
+    'lang.label': 'Language',
+    'nav.sample': 'Sample report',
+    'nav.take': 'Take the test',
+    'hero.kicker': 'Career orientation test',
+    'hero.title': 'Find the kind of work that fits you',
+    'hero.lead': '100 questions about your interests, personality and skills. At the end you get a detailed report: matching careers, salaries in 10 countries and a plan up to university.',
+    'form.title': 'Start with you',
+    'form.name': 'Name',
+    'form.namePh': 'What should we call you',
+    'form.grade': 'Grade',
+    'form.country': 'Where you live',
+    'form.choose': 'Choose',
+    'form.start': 'Start the test',
+    'form.resume': 'Continue from question {n}',
+    'form.restart': 'Start over',
+    'form.time': 'About 15 minutes. Progress is saved, so you can close the tab and come back.',
+    'err.name': 'Enter your name',
+    'err.grade': 'Choose your grade',
+    'err.country': 'Choose your country',
+    'grade.7': 'Grade 7', 'grade.8': 'Grade 8', 'grade.9': 'Grade 9', 'grade.10': 'Grade 10', 'grade.11': 'Grade 11', 'grade.uni': 'University',
+    'parts.title': 'What the test covers',
+    'get.title': 'What the report shows',
+    'get.1': 'Your Holland interest profile and archetype',
+    'get.2': 'Five personality traits with study tips',
+    'get.3': '42 careers by fit, AI exposure and demand',
+    'get.4': 'Pay by country and by years of experience',
+    'get.5': 'A plan from your grade to university',
+    'get.6': 'Skills to build next and what gives you energy',
+    'foot.method': 'Method: RIASEC, Big Five, O*NET Work Values, SJT.',
+    'foot.note': 'The result is a starting point for thinking, not a verdict.',
+
+    'part.interest': 'Interests', 'part.personality': 'Personality', 'part.values': 'Values', 'part.skills': 'Skills', 'part.sjt': 'Situations',
+    'intro.interest': 'Rate each activity without worrying whether you can do it yet. Only interest counts.',
+    'intro.personality': 'There are no right answers. Answer as you are now, not as you would like to be.',
+    'intro.values': 'How much each thing matters to you in a future job.',
+    'intro.skills': 'Rate your level today. An honest answer gives a better plan.',
+    'intro.sjt': 'Pick the option closest to what you would usually do.',
+    'ask.interest': 'How much would you enjoy this at work?',
+    'ask.personality': 'How well does this describe you?',
+    'ask.values': 'How important is this to you?',
+    'ask.skills': 'Your level right now',
+    'ask.sjt': 'What do you do?',
+    'lo.interest': 'Not at all', 'hi.interest': 'A lot',
+    'lo.personality': 'Not me', 'hi.personality': 'Exactly me',
+    'lo.values': 'Not important', 'hi.values': 'Essential',
+    'lo.skills': 'No experience', 'hi.skills': 'Expert',
+    'test.partOf': 'Part {n} of 5',
+    'test.count': '{n} questions',
+    'test.begin': 'Begin',
+    'test.back': 'Back',
+    'test.next': 'Next',
+    'test.exit': 'Exit',
+    'test.saved': 'Progress saved',
+    'test.keys': '1-5 to answer, ← → to move',
+    'test.keysSjt': 'A-D to answer, ← → to move',
+    'test.sending': 'Putting your report together',
+    'test.sendError': 'Could not send your answers. Check your connection and try again.',
+    'test.retry': 'Try again',
+    'test.of': 'of',
+
+    'r.for': 'Report: {name}',
+    'r.share': 'Share',
+    'r.copied': 'Copied',
+    'r.pdf': 'Download PDF',
+    'r.archetype': '{name}, your archetype',
+    'r.code': 'Holland code',
+    'r.best': 'Best match',
+    'r.potential': 'Potential after 10 years',
+    'r.perYearUS': 'a year in the USA, {p}',
+    'r.sample': 'This is a sample report. Take the test to get your own.',
+    'r.loading': 'Loading the report',
+    'r.notFound': 'Report not found',
+    'r.notFoundText': 'Check the link or take the test again.',
+    'r.flat': 'Your interests are spread evenly and no type stands out. That happens, but the matches below will be rough. Try the first part again and use the ends of the scale more.',
+    'r.date': 'Date',
+    'r.id': 'Report',
+    's1': 'Interests', 's1.sub': 'Six Holland types: what draws you in at work',
+    's2': 'Personality', 's2.sub': 'The Big Five: how you usually act',
+    's3': 'Careers', 's3.sub': 'Sorted by how well they fit your interests',
+    's4': 'Income', 's4.sub': 'What you could earn in different countries',
+    's5': 'Plan', 's5.sub': 'Steps from your grade to university and beyond',
+    's6': 'Skills', 's6.sub': 'What your top three careers need',
+    's7': 'Energy', 's7.sub': 'What gives you energy, what takes it, and how to use that',
+    'role.0': 'Leading', 'role.1': 'Second', 'role.2': 'Third',
+    'radar.alt': 'Interest hexagon: {list}',
+    'lv.low': 'Low', 'lv.mid': 'Medium', 'lv.high': 'High',
+    'b5.summary': 'In short',
+    'p.top3': 'Top 3', 'p.top10': 'Top 10', 'p.all': 'All {n}',
+    'p.sort': 'Sort by',
+    'sort.match': 'Best fit', 'sort.salary': 'Salary', 'sort.ai': 'Least AI exposure', 'sort.growth': 'Demand',
+    'p.fit': 'fit',
+    'p.usd': 'a year, USA',
+    'p.ai': 'of tasks AI could take',
+    'g.high': 'Growing demand', 'g.mid': 'Steady demand', 'g.low': 'Shrinking demand',
+    'p.study': 'Study: {field}, {years}',
+    'p.about': 'The job',
+    'p.start': 'Try it now',
+    'p.skills': 'Skills needed',
+    'p.more': 'Details',
+    'p.compare': 'Compare',
+    'p.compareHint': 'Tick up to three careers to compare them side by side',
+    'p.compareTitle': 'Comparison',
+    'p.clear': 'Clear',
+    'p.demand': 'Demand',
+    'p.code': 'Code',
+    'i.prof': 'Career',
+    'i.exp': 'Experience',
+    'i.country': 'Country',
+    'i.month': '{x} a month',
+    'i.home': 'your country',
+    'i.times': '{x} times your country',
+    'i.curve': 'How pay grows with experience',
+    'i.rank': 'Countries side by side',
+    'i.note': 'Pre-tax estimate. Real pay depends on the city, the employer and your skills.',
+    'i.lv0': 'Start', 'i.lv1': 'Junior', 'i.lv2': 'Middle', 'i.lv3': 'Senior', 'i.lv4': 'Lead',
+    'pl.all': 'Whole path',
+    'st.early': 'Grades 7-9', 'st.10': 'Grade 10', 'st.11': 'Grade 11', 'st.uni': 'University',
+    'pl.now': 'now',
+    'pr.critical': 'Must do', 'pr.recommended': 'Should do', 'pr.optional': 'Nice to have',
+    'pl.done': '{d} of {n} done',
+    'pl.try': 'Try the job: {p}',
+    'pl.mark': 'Mark as done',
+    'rd.ready': 'ready',
+    'rd.strong': 'Already there',
+    'rd.grow': 'To work on',
+    'rd.skills': 'skills',
+    'rd.priority': 'Where to start',
+    'rd.need': 'need {n} of 5, now {h}',
+    'rd.none': 'You already meet every skill level these careers need.',
+    'rd.for': 'For: {list}',
+    'rd.have': 'Already have',
+    'm.fuel': 'Charges you',
+    'm.drain': 'Drains you',
+    'm.values': 'What you value at work',
+    'm.style': 'Your style in a team',
+    'm.styleNote': 'From your answers to the situations',
+    'm.tips': 'How to use this',
+    'm.insight': 'In short',
+    'm.insightText': 'You do your best work with {f1} and {f2}. Watch out for {d1}: it drains you fastest.',
+    'm.power': 'Strength {n} of 5',
+    'f.retake': 'Take the test',
+    'p.aiShort': 'AI: {n}%',
+    'p.salaryRow': 'Salary, USA',
+    'p.homeRow': 'In your country',
+    'p.aiRow': 'Tasks AI could take',
+    'p.studyRow': 'Study',
+    'pl.month': '1 month',
+    'i.legendHome': 'your country',
+  },
+};
+
+function pick() {
+  const q = new URLSearchParams(location.search).get('lang');
+  let saved = null;
+  try { saved = localStorage.getItem('lang'); } catch {}
+  const l = (q || saved || (navigator.language?.toLowerCase().startsWith('en') ? 'en' : 'ru')) === 'en' ? 'en' : 'ru';
+  if (q) try { localStorage.setItem('lang', l); } catch {}
+  return l;
+}
+
+let lang = pick();
+document.documentElement.lang = lang;
+const listeners = [];
+
+export const getLang = () => lang;
+export const L = o => (o && typeof o === 'object' ? (o[lang] ?? o.ru) : (o ?? ''));
+export const t = (key, vars) =>
+  (STR[lang][key] ?? STR.ru[key] ?? key).replace(/\{(\w+)\}/g, (_, k) => vars?.[k] ?? '');
+export const onLang = f => listeners.push(f);
+
+const RU_PLURAL = new Intl.PluralRules('ru');
+const FORMS = {
+  q: { ru: ['вопрос', 'вопроса', 'вопросов'], en: ['question', 'questions'] },
+  y: { ru: ['год', 'года', 'лет'], en: ['year', 'years'] },
+  s: { ru: ['навык', 'навыка', 'навыков'], en: ['skill', 'skills'] },
+};
+export function count(n, k) {
+  const f = FORMS[k][lang];
+  if (lang === 'en') return `${n} ${n === 1 ? f[0] : f[1]}`;
+  const c = RU_PLURAL.select(n);
+  return `${n} ${c === 'one' ? f[0] : c === 'few' ? f[1] : f[2]}`;
+}
+export const years = n => count(n, 'y');
+export const money = n =>
+  new Intl.NumberFormat(lang === 'ru' ? 'ru-RU' : 'en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+export const shortMoney = n => (n ? `$${Math.round(n / 1000)}k` : '$0');
+export const date = iso =>
+  new Intl.DateTimeFormat(lang === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+
+export function applyStatic(root = document) {
+  root.querySelectorAll('[data-t]').forEach(el => { el.textContent = t(el.dataset.t); });
+  root.querySelectorAll('[data-t-ph]').forEach(el => { el.placeholder = t(el.dataset.tPh); });
+  root.querySelectorAll('[data-t-label]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.tLabel)); });
+}
+
+export function setLang(l) {
+  lang = l;
+  try { localStorage.setItem('lang', l); } catch {}
+  document.documentElement.lang = l;
+  applyStatic();
+  listeners.forEach(f => f());
+}
+
+// Two-button switch; mount into any element with [data-lang-switch].
+export function mountLangSwitch() {
+  document.querySelectorAll('[data-lang-switch]').forEach(el => {
+    el.setAttribute('role', 'group');
+    el.setAttribute('aria-label', t('lang.label'));
+    el.innerHTML = ['ru', 'en'].map(l => `<button type="button" data-l="${l}">${l.toUpperCase()}</button>`).join('');
+    const sync = () => el.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
+    el.addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset.l !== lang) { setLang(b.dataset.l); } });
+    onLang(sync);
+    sync();
+  });
+}
+
+export function brandHTML() {
+  return `<a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span><b>${BRAND.bold}</b><span>${BRAND.light}</span></a>`;
+}

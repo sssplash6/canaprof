@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Отчёт</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap">
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/js/report.js"></script>
+</head>
+<body>
+  <header class="top rtop">
+    <div class="top-in">
+      <span data-brand></span>
+      <span class="who" id="who"></span>
+      <span class="spacer"></span>
+      <button class="btn btn-text btn-sm hide-sm" id="share" type="button"></button>
+      <button class="btn btn-sm" id="pdf" type="button"></button>
+      <div class="seg" data-lang-switch></div>
+    </div>
+    <nav class="snav" id="snav" aria-label="Sections"></nav>
+  </header>
+  <div id="banner"></div>
+  <main id="main" class="wrap">
+    <div class="state"><div><div class="spinner" aria-hidden="true" style="margin:0 auto 14px"></div><p data-t="r.loading"></p></div></div>
+  </main>
+  <footer class="foot">
+    <div class="wrap"><span><span data-t="foot.method"></span> <span data-t="foot.note"></span></span><a class="btn btn-ghost btn-sm" href="/" data-t="f.retake"></a></div>
+  </footer>
+</body>
+</html>
