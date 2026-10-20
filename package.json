@@ -1,0 +1,10 @@
+{
+  "name": "cana-career-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node score.test.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
