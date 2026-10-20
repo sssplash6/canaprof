@@ -17,7 +17,7 @@ function render() {
   document.querySelector('[data-brand]').innerHTML = brandHTML();
   $('parts').innerHTML = PARTS.map((p, i) => `
     <li><span>0${i + 1}</span><b>${t(`part.${p}`)}</b><small>${count(QUESTIONS.filter(q => q.part === p).length, 'q')}</small></li>`).join('');
-  $('gets').innerHTML = [1, 2, 3, 4, 5, 6].map(i => `<li><span>0${i}</span><p>${t(`get.${i}`)}</p></li>`).join('');
+  $('gets').innerHTML = [1, 2, 3, 4, 5, 6].map(i => `<li><span>0${i}</span><span>${t(`get.${i}`)}</span></li>`).join('');
   options($('grade'), GRADES.map(g => [g, t(`grade.${g}`)]), $('grade').value || saved?.meta?.grade);
   options($('country'), Object.entries(COUNTRIES).filter(([, c]) => c.intake).map(([k, c]) => [k, L(c)]), $('country').value || saved?.meta?.country);
   $('start').innerHTML = `<span>${t('form.start')}</span>${ICON.right}`;

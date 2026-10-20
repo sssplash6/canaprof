@@ -17,52 +17,44 @@
     <div class="top-in">
       <span data-brand></span>
       <span class="spacer"></span>
-      <a class="btn btn-text btn-sm" href="/results" data-t="nav.sample"></a>
+      <button class="btn btn-text btn-sm" type="button" popovertarget="about" data-t="nav.about"></button>
       <div class="seg" data-lang-switch></div>
     </div>
   </header>
 
-  <main id="main" class="wrap">
-    <section class="land">
-      <div>
-        <p class="kicker" data-t="hero.kicker"></p>
-        <h1 data-t="hero.title"></h1>
-        <p class="lead" data-t="hero.lead"></p>
-        <ol class="parts" id="parts" aria-labelledby="parts-title"></ol>
-        <h2 id="parts-title" class="sr-only" data-t="parts.title"></h2>
+  <div id="about" class="about" popover>
+    <h2 data-t="hero.title"></h2>
+    <p class="muted" data-t="hero.lead"></p>
+    <h3 class="kicker" data-t="parts.title"></h3>
+    <ol class="parts" id="parts"></ol>
+    <h3 class="kicker" data-t="get.title"></h3>
+    <ol class="gets" id="gets"></ol>
+    <p class="fine"><span data-t="foot.method"></span> <span data-t="foot.note"></span></p>
+    <a class="btn btn-ghost btn-sm" href="/results" data-t="nav.sample"></a>
+  </div>
+
+  <main id="main" class="solo">
+    <form class="panel form" id="form" novalidate>
+      <h1 data-t="form.title"></h1>
+      <div id="resume"></div>
+      <div class="field" id="f-name">
+        <label for="name" data-t="form.name"></label>
+        <input class="input" id="name" autocomplete="given-name" maxlength="60" data-t-ph="form.namePh">
+        <p class="err" data-t="err.name"></p>
       </div>
-
-      <form class="panel form" id="form" novalidate>
-        <h2 data-t="form.title"></h2>
-        <div id="resume"></div>
-        <div class="field" id="f-name">
-          <label for="name" data-t="form.name"></label>
-          <input class="input" id="name" autocomplete="given-name" maxlength="60" data-t-ph="form.namePh">
-          <p class="err" data-t="err.name"></p>
-        </div>
-        <div class="field" id="f-grade">
-          <label for="grade" data-t="form.grade"></label>
-          <select class="input" id="grade"></select>
-          <p class="err" data-t="err.grade"></p>
-        </div>
-        <div class="field" id="f-country">
-          <label for="country" data-t="form.country"></label>
-          <select class="input" id="country"></select>
-          <p class="err" data-t="err.country"></p>
-        </div>
-        <button class="btn btn-lg btn-block" type="submit" id="start"></button>
-        <p class="note" data-t="form.time"></p>
-      </form>
-    </section>
-
-    <section class="gets">
-      <h2 data-t="get.title"></h2>
-      <ol id="gets"></ol>
-    </section>
+      <div class="field" id="f-grade">
+        <label for="grade" data-t="form.grade"></label>
+        <select class="input" id="grade"></select>
+        <p class="err" data-t="err.grade"></p>
+      </div>
+      <div class="field" id="f-country">
+        <label for="country" data-t="form.country"></label>
+        <select class="input" id="country"></select>
+        <p class="err" data-t="err.country"></p>
+      </div>
+      <button class="btn btn-lg btn-block" type="submit" id="start"></button>
+      <p class="note" data-t="form.time"></p>
+    </form>
   </main>
-
-  <footer class="foot">
-    <div class="wrap"><span data-t="foot.method"></span><span data-t="foot.note"></span></div>
-  </footer>
 </body>
 </html>
