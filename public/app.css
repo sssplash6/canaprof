@@ -506,11 +506,36 @@ input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .state { min-height: 60dvh; display: grid; place-items: center; text-align: center; gap: 12px; padding: 40px 20px; }
 .state h1 { font-size: 28px; letter-spacing: -0.03em; }
 
+/* ---------- Admin ---------- */
+.wrap.adm { padding-top: 32px; padding-bottom: 80px; }
+.adm-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.adm-head h1 { font-size: 30px; letter-spacing: -0.035em; }
+.adm .sort .input { width: 240px; height: 38px; }
+.adm-sum { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; }
+.adm-sum .panel { padding: 22px; }
+.adm-sum .sub-h { margin-top: 0; }
+.adm-sum .val { grid-template-columns: minmax(0, 1fr) 140px 28px; }
+.adm-top { list-style: none; margin: 0; padding: 0; counter-reset: c; }
+.adm-top li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; counter-increment: c; }
+.adm-top li::before { content: counter(c, decimal-leading-zero); font: 500 12px var(--mono); color: var(--mute-2); }
+.adm-top li:last-child { border-bottom: 0; }
+.adm-table { padding: 0; overflow-x: auto; position: relative; } /* positioned, so the sr-only header label is clipped too */
+.adm-table table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 760px; }
+.adm-table th { text-align: left; font: 500 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.adm-table td { padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.adm-table tr:last-child td { border-bottom: 0; }
+.adm-table td:first-child a { font-weight: 550; text-decoration: none; }
+.adm-table td:last-child { text-align: right; }
+@media (hover: hover) and (pointer: fine) { .adm-table tbody tr:hover { background: var(--paper); } .adm-table td:first-child a:hover { text-decoration: underline; } }
+.adm-empty { padding: 24px 0; }
+.adm .seg button span { margin-left: 4px; font-size: 12px; }
+
 /* Small screens */
 @media (max-width: 900px) {
   .hero-grid, .int-grid, .energy { grid-template-columns: 1fr; }
   .cards { grid-template-columns: 1fr; }
   .tips { grid-template-columns: 1fr 1fr; }
+  .adm-sum { grid-template-columns: 1fr; }
   .rd-top { grid-template-columns: 1fr 1fr; }
   .rd-top .ring { grid-column: 1 / -1; }
 }
@@ -540,6 +565,8 @@ input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   .stage-group { grid-template-columns: 1fr; }
   .stage-group .tasks { grid-column: 1; }
   .tips { grid-template-columns: 1fr; }
+  .adm .sort, .adm .sort .input { width: 100%; }
+  .adm-sum .val { grid-template-columns: minmax(0, 1fr) 80px 28px; }
   .val { grid-template-columns: 1fr 80px 22px; }
   .report { gap: 64px; }
 }

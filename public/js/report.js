@@ -1,6 +1,6 @@
 import { t, L, getLang, years, money, shortMoney, date, applyStatic, mountLangSwitch, onLang, brandHTML } from './i18n.js';
 import { esc, load, save, ICON, watchSegs } from './ui.js';
-import { score, rank, readiness, salary, manual, level, RIASEC, BIG5, STYLES } from './score.js';
+import { score, rank, readiness, salary, manual, level, isFlat, RIASEC, BIG5, STYLES } from './score.js';
 import { QUESTIONS } from '../data/questions.js';
 import { PROFESSIONS } from '../data/professions.js';
 import { COUNTRIES } from '../data/countries.js';
@@ -24,8 +24,7 @@ let rec, s, ranked, home, io;
 const view = { list: 'top10', sort: 'match', compare: [], prof: null, years: 5, country: 'us', stage: 'all' };
 const doneKey = `cana:done:${id || 'demo'}`;
 const doneSet = new Set(load(doneKey) || []);
-// Under 5 points between the strongest and weakest type, the code is mostly noise.
-const flat = () => s.riasec[s.order[0]] - s.riasec[s.order[5]] < 5;
+const flat = () => isFlat(s);
 const name = () => (rec.demo ? (getLang() === 'en' ? 'Madina' : 'Мадина') : rec.name);
 
 // The sample report: a fixed, plausible profile generated from the real question bank.

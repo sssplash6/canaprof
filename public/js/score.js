@@ -26,6 +26,9 @@ export function score(questions, answers) {
 
 export const level = p => (p < 40 ? 'low' : p > 60 ? 'high' : 'mid');
 
+// Under 5 points between the strongest and weakest interest type, the code is mostly noise.
+export const isFlat = s => s.riasec[s.order[0]] - s.riasec[s.order[5]] < 5;
+
 function pearson(x, y) {
   const mx = sum(x) / x.length, my = sum(y) / y.length;
   let sxy = 0, sxx = 0, syy = 0;

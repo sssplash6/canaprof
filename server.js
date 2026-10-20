@@ -1,17 +1,21 @@
 // Career test: static pages plus a tiny JSON-file store for submitted answers.
 import { createServer } from 'node:http';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { randomBytes } from 'node:crypto';
+import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
+import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { join, normalize, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { QUESTIONS } from './public/data/questions.js';
 import { COUNTRIES, GRADES } from './public/data/countries.js';
+import { PROFESSIONS } from './public/data/professions.js';
+import { score, rank, isFlat } from './public/js/score.js';
 
 const ROOT = fileURLToPath(new URL('./public/', import.meta.url));
 const DATA = process.env.DATA_DIR || fileURLToPath(new URL('./data/', import.meta.url));
 const PORT = Number(process.env.PORT) || 3030;
 const HOST = process.env.HOST || '127.0.0.1';
 const ID = /^[A-Za-z0-9_-]{12}$/;
+// Unset means the admin area does not exist (404), so a missing env file fails closed.
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.json': 'application/json',
@@ -21,7 +25,7 @@ const PAGES = { '/': 'index.html', '/test': 'test.html', '/results': 'results.ht
 await mkdir(DATA, { recursive: true });
 
 const send = (res, status, body, type = 'application/json') => {
-  res.writeHead(status, { 'content-type': type, 'x-content-type-options': 'nosniff' });
+  res.writeHead(status, { 'content-type': type, 'x-content-type-options': 'nosniff', ...(type === 'application/json' && { 'cache-control': 'no-store' }) });
   res.end(typeof body === 'string' || Buffer.isBuffer(body) ? body : JSON.stringify(body));
 };
 
@@ -40,6 +44,28 @@ function validate(b) {
     if (!Number.isInteger(v) || v < min || v > max) return `answer ${q.id}`;
   }
   return { name, grade: b.grade, country: b.country, lang: b.lang, answers: Object.fromEntries(QUESTIONS.map(q => [q.id, a[q.id]])) };
+}
+
+// One shared admin login over HTTPS: user "admin", password from ADMIN_PASSWORD.
+const isAdminPath = p => p === '/admin' || p === '/admin.html' || p.startsWith('/api/admin/');
+function authorized(req) {
+  const m = /^Basic ([A-Za-z0-9+/=]+)$/.exec(req.headers.authorization || '');
+  if (!m) return false;
+  const given = Buffer.from(Buffer.from(m[1], 'base64').toString('utf8')), want = Buffer.from(`admin:${ADMIN_PASSWORD}`);
+  return given.length === want.length && timingSafeEqual(given, want);
+}
+
+// ponytail: reads and scores every file on each request; fine for a few thousand tests, move to SQLite past that.
+async function listResults() {
+  const files = (await readdir(DATA)).filter(f => f.endsWith('.json'));
+  const rows = await Promise.all(files.map(async f => {
+    try {
+      const r = JSON.parse(await readFile(join(DATA, f), 'utf8'));
+      const s = score(QUESTIONS, r.answers), top = rank(PROFESSIONS, s).slice(0, 3);
+      return { id: r.id, name: r.name, grade: r.grade, country: r.country, createdAt: r.createdAt, code: s.code, flat: isFlat(s), top: top.map(p => p.id), match: top[0].match };
+    } catch { return null; } // one unreadable file must not hide everyone else
+  }));
+  return rows.filter(Boolean).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 async function readBody(req, limit = 64 * 1024) {
@@ -61,6 +87,16 @@ async function serveFile(res, rel, status = 200) {
 createServer(async (req, res) => {
   const { pathname } = new URL(req.url, 'http://x');
   try {
+    if (isAdminPath(pathname)) {
+      if (!ADMIN_PASSWORD) return send(res, 404, 'Not found', 'text/plain');
+      if (!authorized(req)) {
+        res.writeHead(401, { 'www-authenticate': 'Basic realm="canaprof admin", charset="UTF-8"', 'content-type': 'text/plain' });
+        return res.end('Login required');
+      }
+      if (pathname === '/api/admin/results' && req.method === 'GET') return send(res, 200, await listResults());
+      if (pathname.startsWith('/api/')) return send(res, 404, { error: 'not found' });
+      return serveFile(res, 'admin.html');
+    }
     if (pathname === '/api/results' && req.method === 'POST') {
       const r = validate(await readBody(req));
       if (typeof r === 'string') return send(res, 400, { error: `invalid ${r}` });
