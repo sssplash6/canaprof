@@ -89,7 +89,7 @@ function interests() {
     <svg class="radar" viewBox="-200 -190 400 380" role="img" aria-label="${t('radar.alt', { list: RIASEC.map(k => `${k} ${s.riasec[k]}`).join(', ') })}">
       ${[0.25, 0.5, 0.75, 1].map(f => `<polygon points="${ring(f)}" fill="none" stroke="var(--line)"/>`).join('')}
       ${RIASEC.map((_, j) => { const [x, y] = at(j, 140); return `<line x1="0" y1="0" x2="${x}" y2="${y}" stroke="var(--line)"/>`; }).join('')}
-      <polygon points="${pts.map(p => p.join(',')).join(' ')}" fill="rgb(0 0 0 / 0.07)" stroke="var(--ink)" stroke-width="1.75" stroke-linejoin="round"/>
+      <polygon points="${pts.map(p => p.join(',')).join(' ')}" fill="rgb(71 18 36 / 0.07)" stroke="var(--ink)" stroke-width="1.75" stroke-linejoin="round"/>
       ${pts.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>`).join('')}
       ${RIASEC.map((k, j) => { const [x, y] = at(j, 166); return `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle">${k}<tspan class="num" dx="5">${s.riasec[k]}</tspan></text>`; }).join('')}
     </svg>`;
@@ -264,7 +264,7 @@ function renderIncome() {
     <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${t('i.curve')}: ${title(p)}, ${L(sel)}">
       <g class="grid">${[0, 0.25, 0.5, 0.75, 1].map(f => `<line x1="${L0}" x2="${W - R0}" y1="${yv(f * max)}" y2="${yv(f * max)}"/><text x="${L0 - 10}" y="${yv(f * max)}" text-anchor="end" dominant-baseline="middle">${shortMoney(f * max)}</text>`).join('')}</g>
       ${[0, 2, 5, 8, 10].map(v => `<text x="${x(v)}" y="${H - 6}" text-anchor="middle">${v}${v === 10 ? '+' : ''}</text>`).join('')}
-      <path d="${path(sel.factor)}L${x(10)},${yv(0)}L${x(0)},${yv(0)}Z" fill="rgb(0 0 0 / 0.05)"/>
+      <path d="${path(sel.factor)}L${x(10)},${yv(0)}L${x(0)},${yv(0)}Z" fill="rgb(71 18 36 / 0.05)"/>
       ${hf ? `<path d="${path(hf)}" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 4"/>` : ''}
       <path d="${path(sel.factor)}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>
       <line x1="${x(y)}" x2="${x(y)}" y1="${T0}" y2="${H - B0}" stroke="var(--mute-2)" stroke-dasharray="2 3"/>
