@@ -1,9 +1,8 @@
 // UI strings in Russian and English, plus helpers. Content objects use the same { ru, en } shape.
-export const BRAND = { bold: 'freshman', light: 'academy' };
 
 const STR = {
   ru: {
-    'brand.title': 'Профориентация',
+    'brand.title': 'Профориентация · CANA School',
     'lang.label': 'Язык',
     'nav.sample': 'Пример отчёта',
     'nav.about': 'О тесте',
@@ -170,7 +169,7 @@ const STR = {
     'i.legendHome': 'твоя страна',
   },
   en: {
-    'brand.title': 'Career test',
+    'brand.title': 'Career test · CANA School',
     'lang.label': 'Language',
     'nav.sample': 'Sample report',
     'nav.about': 'About the test',
@@ -404,5 +403,5 @@ export function mountLangSwitch() {
 }
 
 export function brandHTML() {
-  return `<a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span><b>${BRAND.bold}</b><span>${BRAND.light}</span></a>`;
+  return '<a class="brand" href="/" aria-label="CANA School"><i class="brand-seal"></i><i class="brand-word"></i></a>';
 }
