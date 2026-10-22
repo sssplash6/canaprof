@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node score.test.mjs && node admin.test.mjs"
+    "test": "node score.test.mjs && node admin.test.mjs && node xlsx.test.mjs"
   },
   "engines": { "node": ">=22" }
 }
