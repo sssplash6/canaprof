@@ -36,8 +36,8 @@ function summary(list) {
     <div class="adm-sum">
       <div class="panel">
         <h2 class="sub-h">${t('adm.types')}</h2>
-        <div class="vals">${lead.map(([k, v]) => `
-          <div class="val"><span><b class="mono">${k}</b> ${L(TYPES[k].name)}</span><div class="bar"><i style="--v:${pct(v)}%"></i></div><b class="num">${v}</b></div>`).join('')}</div>
+        <div class="vals">${lead.map(([k, v], i) => `
+          <div class="val"><span><b class="lt"${i === 0 && v ? ' data-lead' : ''}>${k}</b>${L(TYPES[k].name)}</span><div class="bar"><i style="--v:${pct(v)}%"></i></div><b class="num">${v}</b></div>`).join('')}</div>
       </div>
       <div class="panel">
         <h2 class="sub-h">${t('adm.careers')}</h2>
