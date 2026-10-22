@@ -35,7 +35,8 @@ function validate(b) {
   const name = typeof b.name === 'string' ? b.name.trim() : '';
   if (!name || name.length > 60) return 'name';
   if (!GRADES.includes(b.grade)) return 'grade';
-  if (!(b.country in COUNTRIES) || !COUNTRIES[b.country].intake) return 'country';
+  const country = b.country ?? 'uz'; // the school is in Tashkent; sessions started before the form dropped the question still send one
+  if (!(country in COUNTRIES) || !COUNTRIES[country].intake) return 'country';
   if (b.lang !== 'ru' && b.lang !== 'en') return 'lang';
   const a = b.answers;
   if (!a || typeof a !== 'object') return 'answers';
@@ -43,7 +44,7 @@ function validate(b) {
     const v = a[q.id], max = q.part === 'sjt' ? q.options.length - 1 : 5, min = q.part === 'sjt' ? 0 : 1;
     if (!Number.isInteger(v) || v < min || v > max) return `answer ${q.id}`;
   }
-  return { name, grade: b.grade, country: b.country, lang: b.lang, answers: Object.fromEntries(QUESTIONS.map(q => [q.id, a[q.id]])) };
+  return { name, grade: b.grade, country, lang: b.lang, answers: Object.fromEntries(QUESTIONS.map(q => [q.id, a[q.id]])) };
 }
 
 // One shared admin login over HTTPS: user "admin", password from ADMIN_PASSWORD.

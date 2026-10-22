@@ -1,5 +1,5 @@
 // factor: rough mid-career professional pay relative to the US, at market exchange rates.
-// intake: offered as "where do you live"; salary: shown in the income simulator.
+// intake: accepted as a student's home country (the form no longer asks; the server assumes Uzbekistan); salary: shown in the income simulator.
 export const COUNTRIES = {
   uz: { ru: 'Узбекистан', en: 'Uzbekistan', factor: 0.14, intake: true, salary: true },
   kz: { ru: 'Казахстан', en: 'Kazakhstan', factor: 0.22, intake: true, salary: true },
@@ -17,4 +17,4 @@ export const COUNTRIES = {
   other: { ru: 'Другая страна', en: 'Another country', factor: null, intake: true },
 };
 
-export const GRADES = ['7', '8', '9', '10', '11', 'uni'];
+export const GRADES = ['7', '8', '9', '10', '11'];

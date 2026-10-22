@@ -3,7 +3,7 @@ import { esc, ICON, watchSegs } from './ui.js';
 import { xlsx } from './xlsx.js';
 import { RIASEC } from './score.js';
 import { PROFESSIONS } from '../data/professions.js';
-import { COUNTRIES, GRADES } from '../data/countries.js';
+import { GRADES } from '../data/countries.js';
 import { TYPES } from '../data/content.js';
 
 const $ = id => document.getElementById(id);
@@ -50,12 +50,11 @@ function table(list) {
   if (!list.length) return `<p class="muted adm-empty">${t('adm.noMatch')}</p>`;
   return `
     <div class="panel adm-table"><table>
-      <thead><tr>${['adm.name', 'adm.grade', 'adm.country', 'adm.code', 'adm.best', 'adm.date'].map(k => `<th scope="col">${t(k)}</th>`).join('')}<th><span class="sr-only">${t('adm.open')}</span></th></tr></thead>
+      <thead><tr>${['adm.name', 'adm.grade', 'adm.code', 'adm.best', 'adm.date'].map(k => `<th scope="col">${t(k)}</th>`).join('')}<th><span class="sr-only">${t('adm.open')}</span></th></tr></thead>
       <tbody>${list.map(r => `
         <tr>
           <td><a href="/results/${r.id}" target="_blank" rel="noopener">${esc(r.name)}</a></td>
           <td>${t(`grade.${r.grade}`)}</td>
-          <td>${L(COUNTRIES[r.country])}</td>
           <td><span class="tag tag-mono">${r.code}</span>${r.flat ? ` <span class="tag tag-dash">${t('adm.flat')}</span>` : ''}</td>
           <td>${title(r.top[0])} <span class="muted num">${r.match}%</span></td>
           <td class="num muted">${when(r.createdAt)}</td>
@@ -87,11 +86,11 @@ $('grades').addEventListener('click', e => {
 $('q').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); body(); });
 // Exactly the students on screen (grade and search applied), labelled in the current language.
 $('xlsx').addEventListener('click', () => {
-  const head = [t('adm.name'), t('adm.grade'), t('adm.country'), t('adm.code'), ...[1, 2, 3].map(n => t('adm.top', { n })), t('adm.match'), t('adm.date'), t('adm.link')];
-  const data = shown.map(r => [r.name, t(`grade.${r.grade}`), L(COUNTRIES[r.country]), r.flat ? `${r.code} (${t('adm.flat')})` : r.code,
+  const head = [t('adm.name'), t('adm.grade'), t('adm.code'), ...[1, 2, 3].map(n => t('adm.top', { n })), t('adm.match'), t('adm.date'), t('adm.link')];
+  const data = shown.map(r => [r.name, t(`grade.${r.grade}`), r.flat ? `${r.code} (${t('adm.flat')})` : r.code,
     ...r.top.map(title), r.match, when(r.createdAt), `${location.origin}/results/${r.id}`]);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(xlsx([head, ...data], [22, 12, 14, 12, 24, 24, 24, 12, 16, 48]));
+  a.href = URL.createObjectURL(xlsx([head, ...data], [22, 12, 12, 24, 24, 24, 12, 16, 48]));
   a.download = `cana-${grade === 'all' ? 'all' : `grade-${grade}`}-${new Date().toISOString().slice(0, 10)}.xlsx`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);

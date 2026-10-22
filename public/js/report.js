@@ -74,7 +74,7 @@ function hero() {
       </div>
     </div>
     <div class="hero-foot">
-      <span>${esc(name())} · ${t(`grade.${rec.grade}`)} · ${L(COUNTRIES[rec.country])}</span>
+      <span>${esc(name())} · ${t(`grade.${rec.grade}`)}</span>
       <span>${date(rec.createdAt)}${id ? ` · <span class="mono">${id}</span>` : ''}</span>
     </div>
   </section>`;

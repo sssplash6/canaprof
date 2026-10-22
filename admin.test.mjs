@@ -23,7 +23,9 @@ await new Promise(r => server.once('exit', r));
 server = await start({ ADMIN_PASSWORD: 'correct horse' });
 try {
   const answers = Object.fromEntries(QUESTIONS.map((q, i) => [q.id, q.part === 'sjt' ? 0 : 1 + (i % 5)]));
-  const post = await fetch(`${base}/api/results`, { method: 'POST', body: JSON.stringify({ name: 'Ali', grade: '9', country: 'uz', lang: 'ru', answers }) });
+  const submit = body => fetch(`${base}/api/results`, { method: 'POST', body: JSON.stringify({ name: 'Ali', grade: '9', lang: 'ru', answers, ...body }) });
+  assert.equal((await submit({ grade: 'uni' })).status, 400); // grades are 7-11 only
+  const post = await submit({}); // the form no longer asks for a country
   assert.equal(post.status, 201);
   const { id } = await post.json();
 
@@ -37,6 +39,7 @@ try {
   assert.equal(rows.length, 1);
   assert.equal(rows[0].id, id);
   assert.equal(rows[0].grade, '9');
+  assert.equal(rows[0].country, 'uz');
   assert.match(rows[0].code, /^[RIASEC]{3}$/);
   assert.equal(rows[0].top.length, 3);
   assert.equal(rows[0].answers, undefined); // the list carries summaries, not raw answers
