@@ -606,7 +606,7 @@ input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   @page { size: A4; margin: 14mm 12mm; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   body { background: none; font-size: 12.5px; }
-  .top, .snav, .banner, .no-print, .sec-tools, .pcard .cmp, .compare, .hint-line, .skip, .foot { display: none !important; }
+  .top, .snav, .banner, .no-print, .sec-tools, .pcard .cmp, .compare, .hint-line, .skip { display: none !important; }
   .report { padding: 0; gap: 0; }
   .report > section { break-before: page; }
   .report > section:first-child { break-before: auto; }
