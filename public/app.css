@@ -46,7 +46,7 @@ button { cursor: pointer; }
 a { color: inherit; }
 img, svg { display: block; }
 /* Figures that sit in columns or tick over keep a fixed width */
-.num, .prog-head, .type-row .sc, .trait .hd span b, .pcard .fit, .slider .hd b, .rank b, .gap .d, .val b, .eitem .hd span, .chart text, .radar .num, .adm-table td, .adm-top li { font-variant-numeric: tabular-nums; }
+.num, .prog-head, .type-row .sc, .trait .hd span b, .pcard .fit, .slider .hd b, .rank b, .gap .d, .val b, .eitem .hd span, .chart text, .radar .num { font-variant-numeric: tabular-nums; }
 .kicker { font: 600 11px/1.2 var(--font); letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
 .muted { color: var(--mute); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
