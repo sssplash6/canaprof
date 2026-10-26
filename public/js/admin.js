@@ -1,4 +1,4 @@
-import { t, L, getLang, applyStatic, mountLangSwitch, onLang, brandHTML } from './i18n.js';
+import { t, L, klass, getLang, applyStatic, mountLangSwitch, onLang, brandHTML } from './i18n.js';
 import { esc, ICON, watchSegs } from './ui.js';
 import { xlsx } from './xlsx.js';
 import { RIASEC } from './score.js';
@@ -10,6 +10,7 @@ const $ = id => document.getElementById(id);
 const PROF = Object.fromEntries(PROFESSIONS.map(p => [p.id, p]));
 const title = id => (PROF[id] ? (getLang() === 'en' ? PROF[id].en : PROF[id].ru) : id);
 const when = iso => new Intl.DateTimeFormat(getLang() === 'ru' ? 'ru-RU' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(iso));
+const fullName = r => [r.surname, r.name].filter(Boolean).join(' ');
 let rows = null, failed = false, grade = 'all', q = '', shown = [];
 
 const inGrade = () => rows.filter(r => grade === 'all' || r.grade === grade);
@@ -53,8 +54,8 @@ function table(list) {
       <thead><tr>${['adm.name', 'adm.grade', 'adm.code', 'adm.best', 'adm.date'].map(k => `<th scope="col">${t(k)}</th>`).join('')}<th><span class="sr-only">${t('adm.open')}</span></th></tr></thead>
       <tbody>${list.map(r => `
         <tr>
-          <td><a href="/results/${r.id}" target="_blank" rel="noopener">${esc(r.name)}</a></td>
-          <td>${t(`grade.${r.grade}`)}</td>
+          <td><a href="/results/${r.id}" target="_blank" rel="noopener">${esc(fullName(r))}</a></td>
+          <td>${klass(r)}</td>
           <td><span class="tag tag-mono">${r.code}</span>${r.flat ? ` <span class="tag tag-dash">${t('adm.flat')}</span>` : ''}</td>
           <td>${title(r.top[0])} <span class="muted num">${r.match}%</span></td>
           <td class="num muted">${when(r.createdAt)}</td>
@@ -71,7 +72,7 @@ function body() {
   if (!rows.length) return void ($('body').innerHTML = `<div class="state"><div><p class="muted">${t('adm.empty')}</p></div></div>`);
   const list = inGrade();
   if (!list.length) return void ($('body').innerHTML = `<div class="state"><p class="muted">${t('adm.emptyGrade')}</p></div>`);
-  shown = q ? list.filter(r => r.name.toLowerCase().includes(q)) : list;
+  shown = q ? list.filter(r => `${fullName(r)} ${klass(r)}`.toLowerCase().includes(q)) : list;
   $('xlsx').disabled = !shown.length;
   $('body').innerHTML = `${summary(list)}<h2 class="sub-h">${t('adm.showing', { n: shown.length })}</h2>${table(shown)}`;
 }
@@ -86,11 +87,11 @@ $('grades').addEventListener('click', e => {
 $('q').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); body(); });
 // Exactly the students on screen (grade and search applied), labelled in the current language.
 $('xlsx').addEventListener('click', () => {
-  const head = [t('adm.name'), t('adm.grade'), t('adm.code'), ...[1, 2, 3].map(n => t('adm.top', { n })), t('adm.match'), t('adm.date'), t('adm.link')];
-  const data = shown.map(r => [r.name, t(`grade.${r.grade}`), r.flat ? `${r.code} (${t('adm.flat')})` : r.code,
+  const head = [t('form.surname'), t('form.name'), t('adm.grade'), t('adm.code'), ...[1, 2, 3].map(n => t('adm.top', { n })), t('adm.match'), t('adm.date'), t('adm.link')];
+  const data = shown.map(r => [r.surname, r.name, klass(r), r.flat ? `${r.code} (${t('adm.flat')})` : r.code,
     ...r.top.map(title), r.match, when(r.createdAt), `${location.origin}/results/${r.id}`]);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(xlsx([head, ...data], [22, 12, 12, 24, 24, 24, 12, 16, 48]));
+  a.href = URL.createObjectURL(xlsx([head, ...data], [18, 16, 26, 12, 24, 24, 24, 12, 16, 48]));
   a.download = `cana-${grade === 'all' ? 'all' : `grade-${grade}`}-${new Date().toISOString().slice(0, 10)}.xlsx`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);

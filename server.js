@@ -5,7 +5,7 @@ import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { join, normalize, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { QUESTIONS } from './public/data/questions.js';
-import { COUNTRIES, GRADES } from './public/data/countries.js';
+import { COUNTRIES, GRADES, TRACKS } from './public/data/countries.js';
 import { PROFESSIONS } from './public/data/professions.js';
 import { score, rank, isFlat } from './public/js/score.js';
 
@@ -35,6 +35,10 @@ function validate(b) {
   const name = typeof b.name === 'string' ? b.name.trim() : '';
   if (!name || name.length > 60) return 'name';
   if (!GRADES.includes(b.grade)) return 'grade';
+  // The form requires both; absent is accepted only so sessions started before it asked still submit (there is no default to fill in).
+  const surname = b.surname == null ? '' : typeof b.surname === 'string' ? b.surname.trim() : null;
+  if (surname === null || surname.length > 60) return 'surname';
+  if (b.track != null && !TRACKS.includes(b.track)) return 'track';
   const country = b.country ?? 'uz'; // the school is in Tashkent; sessions started before the form dropped the question still send one
   if (!(country in COUNTRIES) || !COUNTRIES[country].intake) return 'country';
   if (b.lang !== 'ru' && b.lang !== 'en') return 'lang';
@@ -44,7 +48,7 @@ function validate(b) {
     const v = a[q.id], max = q.part === 'sjt' ? q.options.length - 1 : 5, min = q.part === 'sjt' ? 0 : 1;
     if (!Number.isInteger(v) || v < min || v > max) return `answer ${q.id}`;
   }
-  return { name, grade: b.grade, country, lang: b.lang, answers: Object.fromEntries(QUESTIONS.map(q => [q.id, a[q.id]])) };
+  return { name, surname, grade: b.grade, track: b.track ?? null, country, lang: b.lang, answers: Object.fromEntries(QUESTIONS.map(q => [q.id, a[q.id]])) };
 }
 
 // One shared admin login over HTTPS: user "admin", password from ADMIN_PASSWORD.
@@ -63,7 +67,7 @@ async function listResults() {
     try {
       const r = JSON.parse(await readFile(join(DATA, f), 'utf8'));
       const s = score(QUESTIONS, r.answers), top = rank(PROFESSIONS, s).slice(0, 3);
-      return { id: r.id, name: r.name, grade: r.grade, country: r.country, createdAt: r.createdAt, code: s.code, flat: isFlat(s), top: top.map(p => p.id), match: top[0].match };
+      return { id: r.id, name: r.name, surname: r.surname || '', grade: r.grade, track: r.track || null, country: r.country, createdAt: r.createdAt, code: s.code, flat: isFlat(s), top: top.map(p => p.id), match: top[0].match };
     } catch { return null; } // one unreadable file must not hide everyone else
   }));
   return rows.filter(Boolean).sort((a, b) => b.createdAt.localeCompare(a.createdAt));

@@ -1,4 +1,4 @@
-import { t, L, getLang, years, money, shortMoney, date, applyStatic, mountLangSwitch, onLang, brandHTML } from './i18n.js';
+import { t, L, klass, getLang, years, money, shortMoney, date, applyStatic, mountLangSwitch, onLang, brandHTML } from './i18n.js';
 import { esc, load, save, ICON, watchSegs } from './ui.js';
 import { score, rank, readiness, salary, manual, level, isFlat, RIASEC, BIG5, STYLES } from './score.js';
 import { QUESTIONS } from '../data/questions.js';
@@ -74,7 +74,7 @@ function hero() {
       </div>
     </div>
     <div class="hero-foot">
-      <span>${esc(name())} · ${t(`grade.${rec.grade}`)}</span>
+      <span>${esc([rec.surname, name()].filter(Boolean).join(' '))} · ${klass(rec)}</span>
       <span>${date(rec.createdAt)}${id ? ` · <span class="mono">${id}</span>` : ''}</span>
     </div>
   </section>`;

@@ -23,8 +23,11 @@ await new Promise(r => server.once('exit', r));
 server = await start({ ADMIN_PASSWORD: 'correct horse' });
 try {
   const answers = Object.fromEntries(QUESTIONS.map((q, i) => [q.id, q.part === 'sjt' ? 0 : 1 + (i % 5)]));
-  const submit = body => fetch(`${base}/api/results`, { method: 'POST', body: JSON.stringify({ name: 'Ali', grade: '9', lang: 'ru', answers, ...body }) });
+  const submit = body => fetch(`${base}/api/results`, { method: 'POST', body: JSON.stringify({ name: 'Ali', surname: 'Karimov', grade: '9', track: 'med', lang: 'ru', answers, ...body }) });
   assert.equal((await submit({ grade: 'uni' })).status, 400); // grades are 7-11 only
+  assert.equal((await submit({ track: 'law' })).status, 400);
+  assert.equal((await submit({ surname: 'x'.repeat(61) })).status, 400);
+  const old = await (await submit({ surname: undefined, track: undefined })).json(); // sessions started before the form asked for them
   const post = await submit({}); // the form no longer asks for a country
   assert.equal(post.status, 201);
   const { id } = await post.json();
@@ -36,8 +39,12 @@ try {
   assert.equal((await fetch(`${base}/admin`, { headers: basic('correct horse') })).status, 200);
 
   const rows = await (await fetch(`${base}/api/admin/results`, { headers: basic('correct horse') })).json();
-  assert.equal(rows.length, 1);
+  assert.equal(rows.length, 2);
+  assert.equal(rows.find(r => r.id === old.id).track, null);
+  rows.splice(rows.findIndex(r => r.id === old.id), 1);
   assert.equal(rows[0].id, id);
+  assert.equal(rows[0].surname, 'Karimov');
+  assert.equal(rows[0].track, 'med');
   assert.equal(rows[0].grade, '9');
   assert.equal(rows[0].country, 'uz');
   assert.match(rows[0].code, /^[RIASEC]{3}$/);

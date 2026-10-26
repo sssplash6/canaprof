@@ -18,3 +18,5 @@ export const COUNTRIES = {
 };
 
 export const GRADES = ['7', '8', '9', '10', '11'];
+// Every grade is split into the same four classes, written "10 Медицинский".
+export const TRACKS = ['eng', 'econ', 'intl', 'med'];
