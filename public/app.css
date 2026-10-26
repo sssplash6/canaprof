@@ -562,6 +562,7 @@ input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 @media (hover: hover) and (pointer: fine) { .adm-table tbody tr:hover { background: var(--paper); } .adm-table td:first-child a:hover { text-decoration: underline; } }
 .adm-empty { padding: 24px 0; }
 .adm .seg button span { margin-left: 4px; font-size: 12px; }
+.adm-filters { display: grid; gap: 8px; justify-items: start; min-width: 0; max-width: 100%; }
 
 /* Small screens */
 @media (max-width: 900px) {
