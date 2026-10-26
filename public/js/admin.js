@@ -12,6 +12,14 @@ const title = id => (PROF[id] ? (getLang() === 'en' ? PROF[id].en : PROF[id].ru)
 const when = iso => new Intl.DateTimeFormat(getLang() === 'ru' ? 'ru-RU' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(iso));
 const fullName = r => [r.surname, r.name].filter(Boolean).join(' ');
 let rows = null, failed = false, grade = 'all', q = '', shown = [];
+// Sortable table columns; rows arrive newest first and sort is stable, so ties stay newest first.
+const COLS = { name: fullName, grade: klass, code: r => r.code, best: r => r.match, date: r => r.createdAt };
+let sort = { key: 'date', dir: -1 };
+
+function sorted(list) {
+  const f = COLS[sort.key], coll = new Intl.Collator(getLang(), { numeric: true }); // numeric: "8 ..." before "10 ..."
+  return [...list].sort((a, b) => { const x = f(a), y = f(b); return sort.dir * (typeof x === 'number' ? x - y : coll.compare(x, y)); });
+}
 
 const inGrade = () => rows.filter(r => grade === 'all' || r.grade === grade);
 
@@ -51,7 +59,10 @@ function table(list) {
   if (!list.length) return `<p class="muted adm-empty">${t('adm.noMatch')}</p>`;
   return `
     <div class="panel adm-table"><table>
-      <thead><tr>${['adm.name', 'adm.grade', 'adm.code', 'adm.best', 'adm.date'].map(k => `<th scope="col">${t(k)}</th>`).join('')}<th><span class="sr-only">${t('adm.open')}</span></th></tr></thead>
+      <thead><tr>${Object.keys(COLS).map(k => {
+        const on = sort.key === k, up = sort.dir > 0;
+        return `<th scope="col" aria-sort="${on ? (up ? 'ascending' : 'descending') : 'none'}"><button type="button" data-sort="${k}">${t(`adm.${k}`)}<span aria-hidden="true">${on ? (up ? '↑' : '↓') : ''}</span></button></th>`;
+      }).join('')}<th><span class="sr-only">${t('adm.open')}</span></th></tr></thead>
       <tbody>${list.map(r => `
         <tr>
           <td><a href="/results/${r.id}" target="_blank" rel="noopener">${esc(fullName(r))}</a></td>
@@ -72,7 +83,7 @@ function body() {
   if (!rows.length) return void ($('body').innerHTML = `<div class="state"><div><p class="muted">${t('adm.empty')}</p></div></div>`);
   const list = inGrade();
   if (!list.length) return void ($('body').innerHTML = `<div class="state"><p class="muted">${t('adm.emptyGrade')}</p></div>`);
-  shown = q ? list.filter(r => `${fullName(r)} ${klass(r)}`.toLowerCase().includes(q)) : list;
+  shown = sorted(q ? list.filter(r => `${fullName(r)} ${klass(r)}`.toLowerCase().includes(q)) : list);
   $('xlsx').disabled = !shown.length;
   $('body').innerHTML = `${summary(list)}<h2 class="sub-h">${t('adm.showing', { n: shown.length })}</h2>${table(shown)}`;
 }
@@ -84,8 +95,15 @@ $('grades').addEventListener('click', e => {
   document.querySelectorAll('[data-g]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   body();
 });
+$('body').addEventListener('click', e => {
+  const k = e.target.closest('[data-sort]')?.dataset.sort;
+  if (!k) return;
+  sort = sort.key === k ? { key: k, dir: -sort.dir } : { key: k, dir: k === 'best' || k === 'date' ? -1 : 1 };
+  body();
+  $('body').querySelector(`[data-sort="${k}"]`).focus(); // the table is rebuilt, keep keyboard users in place
+});
 $('q').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); body(); });
-// Exactly the students on screen (grade and search applied), labelled in the current language.
+// Exactly the students on screen (grade, search and sort applied), labelled in the current language.
 $('xlsx').addEventListener('click', () => {
   const head = [t('form.surname'), t('form.name'), t('adm.grade'), t('adm.code'), ...[1, 2, 3].map(n => t('adm.top', { n })), t('adm.match'), t('adm.date'), t('adm.link')];
   const data = shown.map(r => [r.surname, r.name, klass(r), r.flat ? `${r.code} (${t('adm.flat')})` : r.code,
