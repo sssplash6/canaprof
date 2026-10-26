@@ -4,6 +4,7 @@ const STR = {
   ru: {
     'brand.title': 'Профориентация · CANA School',
     'lang.label': 'Язык',
+    'cur.label': 'Валюта',
     'nav.sample': 'Пример отчёта',
     'nav.about': 'О тесте',
     'nav.take': 'Пройти тест',
@@ -179,6 +180,7 @@ const STR = {
   en: {
     'brand.title': 'Career test · CANA School',
     'lang.label': 'Language',
+    'cur.label': 'Currency',
     'nav.sample': 'Sample report',
     'nav.about': 'About the test',
     'nav.take': 'Take the test',
@@ -387,9 +389,22 @@ export function count(n, k) {
   return `${n} ${c === 'one' ? f[0] : c === 'few' ? f[1] : f[2]}`;
 }
 export const years = n => count(n, 'y');
-export const money = n =>
-  new Intl.NumberFormat(lang === 'ru' ? 'ru-RU' : 'en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
-export const shortMoney = n => (n ? `$${Math.round(n / 1000)}k` : '$0');
+// ponytail: fixed Central Bank of Uzbekistan rate from 24.10.2026; the salaries are rough estimates anyway. Fetch a live rate if anyone asks.
+const UZS_PER_USD = 11839;
+let cur = 'usd';
+try { if (localStorage.getItem('cur') === 'uzs') cur = 'uzs'; } catch {}
+export const perUSD = () => (cur === 'uzs' ? UZS_PER_USD : 1);
+export function setCurrency(c) {
+  cur = c;
+  try { localStorage.setItem('cur', c); } catch {}
+  listeners.forEach(f => f());
+}
+// Figures are stored in US dollars. Som are converted on display and written the way prices are said there ("2,06 млрд сум").
+const som = n =>
+  `${new Intl.NumberFormat(lang === 'ru' ? 'ru-RU' : 'en-US', { notation: 'compact', maximumSignificantDigits: 3 }).format(n * UZS_PER_USD)}\u00a0${lang === 'ru' ? 'сум' : 'UZS'}`;
+export const money = n => (cur === 'uzs' ? som(n)
+  : new Intl.NumberFormat(lang === 'ru' ? 'ru-RU' : 'en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n));
+export const shortMoney = n => (cur === 'uzs' ? som(n) : n ? `$${Math.round(n / 1000)}k` : '$0');
 export const date = iso =>
   new Intl.DateTimeFormat(lang === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
 
@@ -407,18 +422,20 @@ export function setLang(l) {
   listeners.forEach(f => f());
 }
 
-// Two-button switch; mount into any element with [data-lang-switch].
-export function mountLangSwitch() {
-  document.querySelectorAll('[data-lang-switch]').forEach(el => {
+// Two-button switches; mount into any element with [data-lang-switch] or [data-cur-switch].
+function mountSwitch(name, label, values, get, set) {
+  document.querySelectorAll(`[data-${name}-switch]`).forEach(el => {
     el.setAttribute('role', 'group');
-    el.setAttribute('aria-label', t('lang.label'));
-    el.innerHTML = ['ru', 'en'].map(l => `<button type="button" data-l="${l}">${l.toUpperCase()}</button>`).join('');
-    const sync = () => el.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
-    el.addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset.l !== lang) { setLang(b.dataset.l); } });
+    el.setAttribute('aria-label', t(label));
+    el.innerHTML = values.map(v => `<button type="button" data-${name}="${v}">${v.toUpperCase()}</button>`).join('');
+    const sync = () => el.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset[name] === get())));
+    el.addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset[name] !== get()) set(b.dataset[name]); });
     onLang(sync);
     sync();
   });
 }
+export const mountLangSwitch = () => mountSwitch('lang', 'lang.label', ['ru', 'en'], getLang, setLang);
+export const mountCurrencySwitch = () => mountSwitch('cur', 'cur.label', ['usd', 'uzs'], () => cur, setCurrency);
 
 export function brandHTML() {
   return '<a class="brand" href="/" aria-label="CANA School"><i class="brand-seal"></i><i class="brand-word"></i></a>';

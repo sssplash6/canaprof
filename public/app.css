@@ -586,6 +586,7 @@ input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   .quiz-foot { grid-template-columns: 1fr 1fr; }
   .rtop .who, .top-in .hide-sm { display: none; }
   .top-in { gap: 8px; padding: 0 16px; }
+  .top-in .seg button { padding: 0 8px; } /* the report header carries two switches */
   .wrap { padding: 0 16px; }
   #pdf { padding: 0 10px; }
   .pcard .why, .pcard .meta { padding-left: 0; }
@@ -603,6 +604,7 @@ input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   .val { grid-template-columns: 1fr 80px 22px; }
   .report { gap: 64px; }
 }
+@media (max-width: 360px) { .rtop .brand-word { display: none; } } /* the seal alone, so both report switches fit */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }

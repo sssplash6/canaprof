@@ -1,4 +1,4 @@
-import { t, L, klass, getLang, years, money, shortMoney, date, applyStatic, mountLangSwitch, onLang, brandHTML } from './i18n.js';
+import { t, L, klass, getLang, years, money, shortMoney, date, applyStatic, mountLangSwitch, mountCurrencySwitch, perUSD, onLang, brandHTML } from './i18n.js';
 import { esc, load, save, ICON, watchSegs } from './ui.js';
 import { score, rank, readiness, salary, manual, level, isFlat, RIASEC, BIG5, STYLES } from './score.js';
 import { QUESTIONS } from '../data/questions.js';
@@ -256,8 +256,9 @@ function renderIncome() {
     </div>`;
 
   // Drawn at the container's real width so labels stay at their CSS size on every screen.
-  const W = Math.max(300, $('chart').clientWidth || 640), H = W < 500 ? 200 : 240, L0 = 52, R0 = 14, T0 = 14, B0 = 30;
-  const max = niceMax(salary(p.usd, Math.max(sel.factor, hf || 0), 10));
+  const W = Math.max(300, $('chart').clientWidth || 640), H = W < 500 ? 200 : 240, R0 = 14, T0 = 14, B0 = 30;
+  const k = perUSD(), max = niceMax(salary(p.usd, Math.max(sel.factor, hf || 0), 10) * k) / k; // round gridlines in the shown currency
+  const L0 = 22 + 6 * Math.max(...[0.25, 0.5, 0.75, 1].map(f => shortMoney(f * max).length)); // room for the widest axis label
   const x = v => L0 + (v / 10) * (W - L0 - R0), yv = v => T0 + (1 - v / max) * (H - T0 - B0);
   const path = f => [...Array(11).keys()].map(k => `${k ? 'L' : 'M'}${x(k).toFixed(1)},${yv(salary(p.usd, f, k)).toFixed(1)}`).join('');
   $('chart').innerHTML = `
@@ -498,6 +499,7 @@ addEventListener('afterprint', () => closed.forEach(d => { d.open = false; }));
 async function start() {
   applyStatic();
   mountLangSwitch();
+  mountCurrencySwitch();
   watchSegs();
   try {
     if (location.pathname !== '/results' && !id) throw new Error('bad id');
